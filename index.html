@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Portfolio | Mounika Nemalipuri</title>
+  <style>
+
+/* Experience expand / collapse */
+.details {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease;
+}
+
+.details.open {
+  max-height: 1200px; /* large enough for all content */
+}
+
+.exp-header {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toggle-icon {
+  font-size: 20px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(0, 224, 255, 0.15);
+}
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, Helvetica, sans-serif; }
+
+    body {
+      background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAVBAR */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(12px);
+      z-index: 1000;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 40px;
+    }
+
+    nav h1 { font-size: 20px; font-weight: bold; }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 28px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #ffffff;
+      font-weight: 500;
+      position: relative;
+      cursor: pointer;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -6px;
+      width: 0; height: 2px;
+      background: #00e0ff;
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a.active::after,
+    nav ul li a:hover::after { width: 100%; }
+
+    /* PAGE SYSTEM */
+    .page {
+      position: relative;
+      inset: 0;
+      
+      padding: 120px 10% 80px;
+      opacity: 0;
+      transform: translateX(40px);
+      pointer-events: none;
+ display: none;
+    }
+
+    .page.active {
+      position: relative;
+      display: block; 
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .page.exit-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .page.exit-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    h2 { font-size: 36px; margin-bottom: 20px; color: #00e0ff; }
+    p { font-size: 18px; line-height: 1.6; max-width: 900px; }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 25px;
+      border-radius: 12px;
+      margin-top: 20px;
+      position: relative;
+    }
+
+    /* Timeline line */
+    #experience .card::before {
+      content: '';
+      position: absolute;
+      left: -30px;
+      top: 20px;
+      width: 4px;
+      height: calc(100% - 40px);
+      background: linear-gradient(#00e0ff, transparent);
+      border-radius: 4px;
+    }
+
+    /* CHAT */
+    #chat-toggle {
+      position: fixed; bottom: 20px; right: 20px;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: #00e0ff; border: none; font-size: 24px;
+      cursor: pointer; z-index: 2000;
+    }
+
+    #chat-box {
+      position: fixed; bottom: 90px; right: 20px;
+      width: 320px; background: #111; border-radius: 12px;
+      display: none; flex-direction: column; overflow: hidden; z-index: 2000;
+    }
+
+    #chat-header { background: #00e0ff; color: #000; padding: 12px; font-weight: bold; }
+    #chat-messages { padding: 12px; height: 220px; overflow-y: auto; }
+    #chat-input { display: flex; border-top: 1px solid #333; }
+    #chat-input input { flex: 1; padding: 10px; border: none; }
+    #chat-input button { background: #00e0ff; border: none; padding: 10px; }
+
+    footer { text-align: center; padding: 20px; opacity: 0.7; }
+
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.page.active {
+  flex: 1;
+}
+
+footer {
+  margin-top: auto;
+}
+
+#contact-me-btn{
+  position: fixed !important;
+  right: -42px;
+  top: 50%;
+  transform: rotate(-90deg);
+  background: #00e0ff;
+  color: #000;
+  border: none;
+  padding: 12px 18px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+#contact-modal{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 4000;
+  pointer-events: none; /* 🔥 CRITICAL */
+
+}
+#contact-modal.show{
+  display: flex;              /* show only when clicked */
+  pointer-events: auto;
+}
+
+/* Modal Box */
+.modal-content{
+  background: #0b0f13;
+  padding: 24px;
+  border-radius: 14px;
+  width: 320px;
+  position: relative;
+  box-shadow: 0 0 40px rgba(0,224,255,0.3);
+}
+
+/* Close Button */
+#close-contact{
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Form */
+#contact-form{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+#contact-form input,
+#contact-form textarea{
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+#contact-form button{
+  background: #00e0ff;
+  border: none;
+  padding: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.contact-info{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 16px 0;
+}
+
+.contact-item{
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 10px;
+  align-items: center;
+  background: rgba(255,255,255,0.06);
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.contact-link{
+  color: #00e0ff;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.contact-value{
+  font-size: 13px;
+  opacity: 0.85;
+  overflow-wrap: anywhere;
+}
+
+.copy-btn{
+  background: rgba(0,224,255,0.18);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 6px 8px;
+  font-size: 14px;
+}
+
+.copy-btn:hover{
+  background: rgba(0,224,255,0.35);
+}
+
+
+/* Experience meta + tools */
+.role-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0 12px;
+}
+
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(0,224,255,0.10);
+  border: 1px solid rgba(0,224,255,0.18);
+  font-size: 13px;
+  opacity: 0.95;
+}
+
+.tool-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 8px 0 0;
+}
+
+.tool-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.12);
+  font-size: 13px;
+}
+
+.tool-chip img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(0,224,255,0.25));
+}
+
+.tools-label {
+  margin-top: 6px;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* ===== Experience Summary Layout ===== */
+.experience-summary-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+/* Right side container */
+.experience-summary-right {
+  overflow: hidden;
+}
+
+/* Slider */
+.exp-slider {
+  width: 100%;
+  overflow: hidden;
+}
+
+.exp-track {
+  display: flex;
+  gap: 20px;
+  animation: slide-left 22s linear infinite;
+}
+
+.exp-slide-card {
+  min-width: 260px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  font-size: 15px;
+  line-height: 1.4;
+  box-shadow: 0 0 25px rgba(0,224,255,0.18);
+}
+
+/* Pause on hover */
+.exp-slider:hover .exp-track {
+  animation-play-state: paused;
+}
+
+/* Animation */
+@keyframes slide-left {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-100%); }
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .experience-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ===== Experience Fade Slider ===== */
+.exp-fade-slider {
+  position: relative;
+  width: 100%;
+  height: 140px;
+}
+
+.exp-fade-card {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  padding: 22px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  font-size: 16px;
+  line-height: 1.5;
+  box-shadow: 0 0 30px rgba(0,224,255,0.18);
+}
+
+.exp-fade-card.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== Experience Card Images ===== */
+.exp-card-img {
+  width: 100%;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+/* Adjust card height for image + text */
+.exp-fade-slider {
+  height: 220px;
+}
+
+.exp-fade-card p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+@media (min-width: 1100px) {
+  .exp-fade-card {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .exp-card-img {
+    width: 45%;
+    height: 120px;
+    margin-bottom: 0;
+  }
+}
+
+/* EXPERIENCE SUMMARY LAYOUT */
+#experience .summary-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+/* SLIDER CONTAINER */
+.experience-slider {
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+}
+
+/* SLIDES */
+.slider-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ACTIVE SLIDE */
+.slide.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  z-index: 2;
+}
+
+/* IMAGE — NO CROPPING */
+.slide img {
+   width: 88%;          /* 🔹 reduced size */
+  height: 60%; 
+  object-fit: contain;   /* 🔥 prevents cropping */
+  border-radius: 18px;
+   background: transparent;
+  padding: 2px;
+}
+
+
+  </style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <h1>Mounika Nemalipuri | AI/ML Engineer</h1>
+    <ul>
+      <li><a class="nav-link active" data-page="home">Home</a></li>
+      <li><a class="nav-link" data-page="experience">Experience</a></li>
+      <li><a class="nav-link" data-page="education">Education</a></li>
+      <li><a class="nav-link" data-page="projects">Projects</a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- HOME PAGE -->
+<section id="home" class="page active">
+
+
+  <div style="display:flex;align-items:center;gap:60px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:280px;">
+      <h2>Home</h2>
+      <p>
+      AI / ML Engineer specializing in Agentic AI, Retrieval-Augmented Generation (RAG),
+      and scalable production systems. Experienced in building multi-agent architectures
+      using LangChain, real-time pipelines with Kafka, and deploying AI solutions on cloud platforms.
+    </p>
+    </div>
+    <img src="A_digital_illustration_in_anime-style_features_a_y.png" style="width:260px;height:260px;border-radius:50%;box-shadow:0 0 40px rgba(0,224,255,0.4);" />
+
+
+  </div>
+
+<!-- HOME HIGHLIGHTS -->
+<div style="margin-top:40px;display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start;">
+
+  <!-- ORACLE CERTIFICATION -->
+  <div class="card" style="max-width:420px;">
+    <h3>Oracle Certified Professional – Data Science (2025)</h3><br>
+    <img
+      src="dcf3862f-f4d3-48b3-be78-3922bc9074d7.png"
+      alt="Oracle Data Science Certification"
+      style="width:280px;margin:15px 0;"
+    />
+    <p>
+      Oracle Cloud Infrastructure certification validating expertise in
+      applied data science, ML workflows, and cloud-based analytics.
+    </p>
+    <a
+      href="https://catalog-education.oracle.com/ords/certview/sharebadge?id=C58C6CED4C6A027408F1CF257F01D2D80CFFA9153145A13A6407749B14F65500"
+      target="_blank"
+      style="color:#00e0ff;text-decoration:none;font-weight:500;"
+    >
+      🔗 View Certification
+    </a>
+  </div>
+
+  <!-- IEEE RESEARCH PAPER -->
+  <div class="card" style="max-width:420px;">
+    <h3>IEEE Research Publication</h3><br><br>
+    <img
+      src="IEEE_xplore.png"
+      alt="IEEE "
+      style="width:280px;margin:15px 0;"
+    /><br><br>
+
+    <p style="font-weight:500;">
+      Hybrid CNN–LSTM Model for Jail Activity Recognition
+    </p>
+    <p>
+      Published at an IEEE Conference, proposing a hybrid deep learning
+      architecture for accurate activity recognition using video data.
+    </p>
+    <a
+      href="https://ieeexplore.ieee.org/abstract/document/10754670"
+      target="_blank"
+      style="color:#00e0ff;text-decoration:none;font-weight:500;"
+    >
+      🔗 View on IEEE Xplore
+    </a>
+  </div>
+
+</div>
+
+</section>
+
+<!-- EXPERIENCE PAGE -->
+<section id="experience" class="page">
+  <h2>Experience</h2>
+
+
+  <div class="experience-summary-grid">
+
+  <!-- LEFT: SUMMARY -->
+  <div class="experience-summary-left">
+    <h3 style="margin-bottom:10px;">Summary</h3>
+
+    <p id="experience-text" style="font-size:17px;line-height:1.6;">
+      Loading experience summary...
+    </p>
+
+    <div class="tool-row" style="margin-top:14px;">
+      <span class="tool-chip">🧠 LangChain</span>
+      <span class="tool-chip">🐍 Python</span>
+      <span class="tool-chip">⚡ FastAPI</span>
+      <span class="tool-chip">📡 Apache Kafka</span>
+      <span class="tool-chip">☁️ AWS / Vertex AI</span>
+    </div>
+  </div>
+
+  <!-- RIGHT: MOVING SLIDER -->
+  <div class="experience-summary-right">
+<div class="experience-slider">
+  <div class="slider-track">
+    <div class="slide active">
+      <img src="one.png" alt="Agentic AI Systems">
+    </div>
+    <div class="slide">
+      <img src="two.png" alt="RAG Pipelines">
+    </div>
+    <div class="slide">
+      <img src="three.png" alt="FastAPI Inference">
+    </div>
+    <div class="slide">
+      <img src="four.png" alt="Kafka Pipelines">
+    </div>
+    <div class="slide">
+      <img src="five.png" alt="ML on Cloud">
+    </div>
+  </div>
+</div>
+
+
+  </div>
+
+</div>
+
+
+
+
+  <div class="card" style="display:flex;gap:20px;align-items:flex-start;">
+    <img src="finz-logo.png" alt="FINZ Logo" style="width:60px;height:60px;object-fit:contain;" />
+    <div style="flex:1;">
+      <div class="exp-header" onclick="toggleDetails('finz', this)">
+        <h3>AI Engineer | FINZ <span style="font-weight:400;opacity:0.8;">(Aug 2025 – Present)</span></h3>
+        <span class="toggle-icon">➕</span>
+      </div>
+      <p>Building a production-grade AI CFO using multi-agent systems, RAG, and real-time financial data pipelines.</p>
+ <div class="role-meta">
+  <span class="meta-pill">⏳ Duration: <b>4 mos</b></span>
+  <span class="meta-pill">🎯 Focus: Agentic AI + RAG + Real-time pipelines</span>
+</div>
+
+<div class="tools-label">Tools used:</div>
+<div class="tool-row">
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/python/ffffff" alt="">Python</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/fastapi/ffffff" alt="">FastAPI</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/mongodb/ffffff" alt="">MongoDB</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/firebase/ffffff" alt="">Firebase</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/apachekafka/ffffff" alt="">Kafka</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/googlecloud/ffffff" alt="">Vertex AI</span>
+  <span class="tool-chip">🧠 LangChain</span>
+  <span class="tool-chip">🧾 OCR</span>
+  <span class="tool-chip">🌲 Pinecone</span>
+</div>
+
+      <div id="finz" class="details">
+        <ul>
+          <li>Designed and deployed multi-agent AI systems using LangChain to enable automated financial intelligence and decision support.</li>
+          <li>Engineered RAG pipelines integrating Vertex AI, Pinecone, and Kafka for enterprise-grade question answering.</li>
+          <li>Built real-time ingestion and summarization pipelines for transactions, bills, and invoices.</li>
+          <li>Implemented OCR-powered document processing and autonomous database-querying agents.</li>
+          <li>Developed high-performance FastAPI services and event-driven architectures using MongoDB and Firebase.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="display:flex;gap:20px;align-items:flex-start;">
+    <img src="kamali-logo.png" alt="Kamali Logo" style="width:60px;height:60px;object-fit:contain;" />
+    <div style="flex:1;">
+      <div class="exp-header" onclick="toggleDetails('kamali', this)">
+        <h3>Agentic AI Developer | Kamali Inc <span style="font-weight:400;opacity:0.8;">(Sep 2024 – Jun 2025)</span></h3>
+        <span class="toggle-icon">➕</span>
+      </div>
+      <p>Designed agentic AI systems and RAG pipelines for enterprise and education workflows.</p>
+<div class="role-meta">
+  <span class="meta-pill">⏳ Duration: <b>10 mos</b></span>
+  <span class="meta-pill">🎯 Focus: Multi-agent automation + MLOps</span>
+</div>
+
+<div class="tools-label">Tools used:</div>
+<div class="tool-row">
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/python/ffffff" alt="">Python</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/fastapi/ffffff" alt="">FastAPI</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/pytorch/ffffff" alt="">Torch/TorchServe</span>
+  <span class="tool-chip"><img src="aws.png" alt="">AWS SageMaker</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/mlflow/ffffff" alt="">MLflow</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/kubernetes/ffffff" alt="">Kubeflow</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/apachekafka/ffffff" alt="">Kafka</span>
+  <span class="tool-chip">🧠 LangChain</span>
+  <span class="tool-chip">🤝 CrewAI</span>
+  <span class="tool-chip">📦 ChromaDB</span>
+  <span class="tool-chip">🧭 HNSWlib</span>
+</div>
+
+      <div id="kamali" class="details">
+        <ul>
+          <li>Built multi-agent workflows using LangChain and CrewAI, improving response accuracy by 20%.</li>
+          <li>Engineered RAG pipelines with GPT-4, Claude, HNSWlib, and ChromaDB.</li>
+          <li>Developed scalable FastAPI and TorchServe inference services on AWS SageMaker.</li>
+          <li>Orchestrated MLOps pipelines using MLflow, Kubeflow, and CI/CD.</li>
+          <li>Led LoRA fine-tuning and prompt engineering for T5 and BART models.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+<!-- TCS -->
+  <div class="card" style="display:flex;gap:20px;align-items:flex-start;">
+    <img src="tcs-logo.png" alt="TCS Logo" style="width:60px;height:60px;object-fit:contain;" />
+    <div style="flex:1;">
+      <div class="exp-header" onclick="toggleDetails('tcs', this)" aria-controls="tcs" aria-expanded="false">
+        <h3>AI / ML Engineer | Tata Consultancy Services <span style="font-weight:400;opacity:0.8;">(Oct 2022 – Jul 2023)</span></h3>
+        <span class="toggle-icon">➕</span>
+      </div>
+      <p>Delivered NLP-driven conversational AI and scalable ML pipelines for fleet management systems.</p>
+<div class="role-meta">
+  <span class="meta-pill">⏳ Duration: <b>10 mos</b></span>
+  <span class="meta-pill">🎯 Focus: NLP assistants + ETL + deployment</span>
+</div>
+
+<div class="tools-label">Tools used:</div>
+<div class="tool-row">
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/python/ffffff" alt="">Python</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/docker/ffffff" alt="">Docker</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/kubernetes/ffffff" alt="">Kubernetes</span>
+  <span class="tool-chip"><img src="aws.png" alt="">AWS</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/mlflow/ffffff" alt="">MLflow</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/apachespark/ffffff" alt="">Apache Spark</span>
+  <span class="tool-chip">🤖 IBM Watson</span>
+</div>
+
+      <div id="tcs" class="details">
+        <div class="details-inner">
+          <ul>
+            <li>Developed conversational AI solutions using IBM Watson for enterprise fleet clients.</li>
+            <li>Designed ETL pipelines to transform raw fleet data into structured analytics.</li>
+            <li>Deployed containerized FastAPI services using Docker, Kubernetes, and CI/CD on AWS.</li>
+            <li>Optimized LLM performance using MLflow and Apache Spark.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cognizant -->
+  <div class="card" style="display:flex;gap:20px;align-items:flex-start;">
+    <img src="cognizant-logo.png" alt="Cognizant Logo" style="width:60px;height:60px;object-fit:contain;" />
+    <div style="flex:1;">
+      <div class="exp-header" onclick="toggleDetails('cognizant', this)" aria-controls="cognizant" aria-expanded="false">
+        <h3>Machine Learning Engineer | Cognizant <span style="font-weight:400;opacity:0.8;">(Mar 2021 – Sep 2022)</span></h3>
+        <span class="toggle-icon">➕</span>
+      </div>
+      <p>Built and deployed scalable ML models and real-time data pipelines for insurance analytics.</p>
+<div class="role-meta">
+  <span class="meta-pill">⏳ Duration: <b>1 yr 7 mos</b></span>
+  <span class="meta-pill">🎯 Focus: ML on AWS + streaming + automation</span>
+</div>
+
+<div class="tools-label">Tools used:</div>
+<div class="tool-row">
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/python/ffffff" alt="">Python</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/tensorflow/ffffff" alt="">TensorFlow</span>
+  <span class="tool-chip"><img src="aws.png" alt="">AWS SageMaker</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/apachekafka/ffffff" alt="">Kafka</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/apachespark/ffffff" alt="">Spark</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/docker/ffffff" alt="">Docker</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/kubernetes/ffffff" alt="">Kubernetes</span>
+  <span class="tool-chip">🗣️ Amazon Lex</span>
+</div>
+
+      <div id="cognizant" class="details">
+        <div class="details-inner">
+          <ul>
+            <li>Deployed TensorFlow models on AWS SageMaker improving claims efficiency by 32%.</li>
+            <li>Implemented Kafka + Spark pipelines increasing data freshness by 75%.</li>
+            <li>Integrated Amazon Lex bots with AWS backend services.</li>
+            <li>Automated ML deployments with Docker, GitHub Actions, and Kubernetes.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pulse Byte -->
+  <div class="card" style="display:flex;gap:20px;align-items:flex-start;">
+    <img src="pulsebyte-logo.png" alt="Pulse Byte Logo" style="width:60px;height:60px;object-fit:contain;" />
+    <div style="flex:1;">
+      <div class="exp-header" onclick="toggleDetails('pulse', this)" aria-controls="pulse" aria-expanded="false">
+        <h3>Jr Machine Learning Engineer | Pulse Byte <span style="font-weight:400;opacity:0.8;">(Jan 2020 – Feb 2021)</span></h3>
+        <span class="toggle-icon">➕</span>
+      </div>
+      <p>Developed recommendation systems and data pipelines for personalized learning platforms.</p>
+<div class="role-meta">
+  <span class="meta-pill">⏳ Duration: <b>1 yr 2 mos</b></span>
+  <span class="meta-pill">🎯 Focus: Recommenders + data pipelines</span>
+</div>
+
+<div class="tools-label">Tools used:</div>
+<div class="tool-row">
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/python/ffffff" alt="">Python</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/tensorflow/ffffff" alt="">TensorFlow</span>
+  <span class="tool-chip"><img src="https://cdn.simpleicons.org/apachespark/ffffff" alt="">Spark</span>
+  <span class="tool-chip">🗄️ SQL</span>
+</div>
+
+      <div id="pulse" class="details">
+        <div class="details-inner">
+          <ul>
+            <li>Built collaborative filtering and content-based recommendation models.</li>
+            <li>Implemented real-time adaptive recommendations improving engagement by 10%.</li>
+            <li>Used Apache Spark for scalable preprocessing and SQL-based analytics.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</section>
+
+<!-- EDUCATION PAGE -->
+<section id="education" class="page">
+  <h2>Education</h2>
+  <div class="card">
+    <h3>Master of Science – Data Science</h3>
+    <p>University of New Haven | GPA: 3.92</p>
+  </div>
+  <div class="card">
+    <h3>Bachelor of Technology – Computer Science</h3>
+    <p>JNTU | GPA: 7.59</p>
+  </div>
+
+
+  <!-- SKILLS & LEARNING -->
+  <h2 style="margin-top:50px;">Skills & Learning</h2>
+
+  <!-- HackerRank -->
+  <div class="card">
+    <h3>HackerRank</h3>
+    <p>
+      Active problem solving profile covering algorithms, data structures,
+      and programming fundamentals.
+    </p>
+    <a
+      href="https://www.hackerrank.com/profile/NMSSA"
+      target="_blank"
+      style="color:#00e0ff;text-decoration:none;font-weight:500;"
+    >
+      🔗 View HackerRank Profile
+    </a>
+  </div>
+
+  <div class="card">
+  <h3>Core Skills & Strength</h3>
+
+  <div style="margin-top:14px;line-height:2;">
+
+    <!-- Agentic AI -->
+    <div>
+      <strong>Agentic AI</strong><br>
+      ⭐⭐⭐⭐⭐
+      <span style="opacity:0.8;">(LangChain, Multi-Agent Systems)</span>
+    </div>
+
+    <!-- LLM / ML Models -->
+    <div>
+      <strong>LLM / ML Models</strong><br>
+      ⭐⭐⭐⭐⭐
+      <span style="opacity:0.8;">(GPT, T5, BART, Transformers)</span>
+    </div>
+
+    <!-- Model Training -->
+    <div>
+      <strong>Model Training</strong><br>
+      ⭐⭐⭐⭐☆
+      <span style="opacity:0.8;">(Fine-tuning, LoRA, Evaluation)</span>
+    </div>
+
+    <!-- Python -->
+    <div>
+      <strong>Python</strong><br>
+      ⭐⭐⭐⭐⭐
+      <span style="opacity:0.8;">(AI, Data, Backend)</span>
+    </div>
+
+    <!-- Docker -->
+    <div>
+      <strong>Docker</strong><br>
+      ⭐⭐⭐⭐☆
+      <span style="opacity:0.8;">(Containerized ML & APIs)</span>
+    </div>
+
+    <!-- Git -->
+    <div>
+      <strong>Git / GitHub</strong><br>
+      ⭐⭐⭐⭐☆
+      <span style="opacity:0.8;">(Version Control, CI/CD)</span>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- PROJECTS PAGE -->
+<!-- PROJECTS PAGE -->
+<section id="projects" class="page">
+  <h2>Projects</h2>
+
+  <!-- PROJECT 1 -->
+  <div class="card">
+    <h3>Agentic AI for Financial Automation (AI CFO)</h3>
+    <p>
+      End-to-end Agentic AI system that ingests vendor invoices, uses LLM + RAG for reasoning,
+      decides whether to post transactions, and executes QuickBooks API actions autonomously.
+    </p>
+    <a href="https://github.com/Mounika-Nemalipuri/FINZ-Task"
+       target="_blank"
+       style="color:#00e0ff;text-decoration:none;font-weight:500;">
+      🔗 View on GitHub
+    </a>
+  </div>
+
+  <!-- PROJECT 2 -->
+  <div class="card">
+    <h3>Abstractive Text Summarization (LSTM vs T5 vs BART)</h3>
+    <p>
+      Comparative study of LSTM with Attention and transformer-based models (T5, BART)
+      for abstractive summarization on CNN-DailyMail and AG-News datasets under limited compute.
+    </p>
+    <a href="https://github.com/Mounika-Nemalipuri/NLP_PROJECT"
+       target="_blank"
+       style="color:#00e0ff;text-decoration:none;font-weight:500;">
+      🔗 View on GitHub
+    </a>
+  </div>
+
+  <!-- PROJECT 3 -->
+  <div class="card">
+    <h3>Remote Patient Care using AWS & IoT</h3>
+    <p>
+      Cloud-based health monitoring system using AWS IoT, Glue, EC2-hosted ML models,
+      and a web application to track patient health and adherence in real time.
+    </p>
+    <a href="https://github.com/Mounika-Nemalipuri/DSCI-6007-03-Team12-main/tree/main/DSCI-6007-03-Team12-main"
+       target="_blank"
+       style="color:#00e0ff;text-decoration:none;font-weight:500;">
+      🔗 View on GitHub
+    </a>
+  </div>
+
+<div class="card" style="margin-top:40px;text-align:center;">
+  <p style="font-size:18px;">Want to explore more projects?</p>
+  <a
+    href="https://github.com/Mounika-Nemalipuri"
+    target="_blank"
+    style="
+      display:inline-block;
+      margin-top:12px;
+      padding:12px 22px;
+      border-radius:30px;
+      background:linear-gradient(90deg,#00e0ff,#4facfe);
+      color:#000;
+      font-weight:600;
+      text-decoration:none;
+      transition:transform 0.2s ease, box-shadow 0.2s ease;
+    "
+    onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 10px 30px rgba(0,224,255,0.35)'"
+    onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='none'"
+  >
+    🚀 For more projects, check my GitHub
+  </a>
+</div>
+
+</section>
+
+<footer>© 2025 Mounika Nemalipuri</footer>
+
+<button id="chat-toggle">💬</button>
+<div id="chat-box">
+  <div id="chat-header">Chat</div>
+  <div id="chat-messages">Hi! How can I help you?</div>
+  <div id="chat-input"><input /><button>Send</button></div>
+</div>
+
+
+<button id="contact-me-btn" aria-label="Contact me">
+  Contact me
+</button>
+
+<div id="contact-modal" role="dialog" aria-modal="true">
+  <div class="modal-content">
+    <span id="close-contact">&times;</span>
+
+    <h3>Contact Me</h3>
+
+<!-- CONTACT INFO -->
+<div class="contact-info">
+
+  <!-- LinkedIn -->
+  <div class="contact-item">
+    <a class="contact-link" href="https://www.linkedin.com/in/mounika-nemalipuri-1ba40816a" target="_blank" rel="noopener">
+      🔗 LinkedIn
+    </a>
+    <span class="contact-value"></span>
+    <button  class="copy-btn" data-copy="https://www.linkedin.com/in/mounika-nemalipuri-1ba40816a"> Copy </button>
+  </div>
+
+  <!-- Email -->
+  <div class="contact-item">
+    <a href="mailto:mounikasrisainemalipuri@gmail.com"
+   class="contact-link">
+      ✉️ Email
+    </a>
+    <span class="contact-value"> </span>
+    <button class="copy-btn" data-copy="mounikasrisainemalipuri@gmail.com"> Copy </button>
+  </div>
+
+  <!-- Phone -->
+  <div class="contact-item">
+    <a href="tel:+14752679310"
+       class="contact-link">
+      📱
+    </a>
+    <span class="contact-value">+1 4752679310</span>
+    <button class="copy-btn" data-copy="+14752679310"> Copy </button>
+  </div>
+
+</div>
+
+
+    <form id="contact-form">
+  <input type="text" name="from_name" placeholder="Your Name" required />
+  <input type="email" name="from_email" placeholder="Your Email" required />
+  <textarea name="message" placeholder="Your Message" rows="4" required></textarea>
+  <button type="submit">Send</button>
+</form>
+
+  </div>
+</div>
+
+<script>
+  const navLinks = document.querySelectorAll('.nav-link');
+  const pages = Array.from(document.querySelectorAll('.page'));
+  let currentIndex = 0;
+
+  function showPage(pageId) {
+    const nextIndex = pages.findIndex(p => p.id === pageId);
+    if (nextIndex === -1 || nextIndex === currentIndex) return;
+
+    const currentPage = pages[currentIndex];
+    const nextPage = pages[nextIndex];
+
+    const direction = nextIndex > currentIndex ? 'right' : 'left';
+
+    currentPage.classList.remove('active');
+    currentPage.classList.add(direction === 'right' ? 'exit-left' : 'exit-right');
+
+    setTimeout(() => {
+      currentPage.classList.remove('exit-left', 'exit-right');
+      nextPage.classList.add('active');
+    }, 50);
+
+    navLinks.forEach(l => l.classList.toggle('active', l.dataset.page === pageId));
+    currentIndex = nextIndex;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => showPage(link.dataset.page));
+  });
+
+  // Chat widget
+  document.getElementById('chat-toggle').onclick = () => {
+    const box = document.getElementById('chat-box');
+    box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
+  };
+
+function toggleDetails(id, headerEl) {
+  const details = document.getElementById(id);
+  if (!details) return;
+
+  details.classList.toggle('open');
+
+  const icon = headerEl.querySelector('.toggle-icon');
+  if (icon) {
+    icon.textContent = details.classList.contains('open') ? '➖' : '➕';
+  }
+}
+
+const contactBtn = document.getElementById('contact-me-btn');
+const contactModal = document.getElementById('contact-modal');
+const closeContact = document.getElementById('close-contact');
+
+
+contactBtn.onclick = () => {
+  contactModal.classList.add('show');
+};
+
+closeContact.onclick = () => {
+  contactModal.classList.remove('show');
+};
+
+contactModal.onclick = (e) => {
+  if (e.target === contactModal) {
+    contactModal.classList.remove('show');
+  }
+};
+
+// Send message (frontend demo)
+ const contactForm = document.getElementById("contact-form");
+
+  contactForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    emailjs.sendForm(
+      "service_73n86s8",
+      "template_tszyhwu",
+      this
+    )
+    .then(() => {
+      alert("Message sent successfully!");
+      contactForm.reset();
+      document.getElementById("contact-modal").style.display = "none";
+    })
+    .catch((error) => {
+      alert("Failed to send message. Try again.");
+      console.error(error);
+    });
+  });
+
+
+// Copy to clipboard (contact modal)
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const value = btn.dataset.copy;
+    navigator.clipboard.writeText(value);
+
+    const old = btn.textContent;
+    btn.textContent = '✓';
+    setTimeout(() => btn.textContent = old, 800);
+  });
+});
+
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+  (function(){
+    emailjs.init("F9ms2yg3SDOVM_U4g");
+  })();
+</script>
+
+
+
+<script>
+/* ===== Auto Experience Calculator ===== */
+
+(function calculateExperience() {
+
+  /*
+    Define your experience timeline here
+    start: YYYY-MM (month is 0-based internally)
+    end: null = present
+  */
+  const roles = [
+    { start: '2020-01', end: '2021-02' }, // Pulse Byte
+    { start: '2021-03', end: '2022-09' }, // Cognizant
+    { start: '2022-10', end: '2023-07' }, // TCS
+    { start: '2024-09', end: '2025-06' }, // Kamali
+    { start: '2025-08', end: null }       // FINZ (Present)
+  ];
+
+  function monthsBetween(start, end) {
+    return (end.getFullYear() - start.getFullYear()) * 12 +
+           (end.getMonth() - start.getMonth()) + 1;
+  }
+
+  let totalMonths = 0;
+  const now = new Date();
+
+  roles.forEach(role => {
+    const start = new Date(role.start + '-01');
+    const end = role.end ? new Date(role.end + '-01') : now;
+    totalMonths += monthsBetween(start, end);
+  });
+
+  const years = Math.floor(totalMonths / 12);
+  const months = totalMonths % 12;
+
+  const text = `
+    <strong>${years}+ years ${months} months</strong> of hands-on experience building
+    <strong>Agentic AI systems</strong>, <strong>LLM & RAG pipelines</strong>, and
+    <strong>production-grade ML platforms</strong>.
+    Proven expertise in designing scalable AI solutions using modern cloud,
+    real-time data, and multi-agent architectures.
+  `;
+
+  const el = document.getElementById('experience-text');
+  if (el) el.innerHTML = text;
+
+})();
+</script>
+<script>
+/* ===== Experience Fade Rotation ===== */
+(function () {
+  const cards = document.querySelectorAll('.exp-fade-card');
+  let index = 0;
+
+  setInterval(() => {
+    cards[index].classList.remove('active');
+    index = (index + 1) % cards.length;
+    cards[index].classList.add('active');
+  }, 3500); // change card every 3.5 seconds
+})();
+
+const slides = document.querySelectorAll('.experience-slider .slide');
+let currentSlide = 0;
+
+setInterval(() => {
+  slides[currentSlide].classList.remove('active');
+  currentSlide = (currentSlide + 1) % slides.length;
+  slides[currentSlide].classList.add('active');
+}, 3500); 
+</script>
+
+
+</body>
+</html>
