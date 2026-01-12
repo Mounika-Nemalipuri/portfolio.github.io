@@ -141,25 +141,7 @@
       border-radius: 4px;
     }
 
-    /* CHAT */
-    #chat-toggle {
-      position: fixed; bottom: 20px; right: 20px;
-      width: 60px; height: 60px; border-radius: 50%;
-      background: #00e0ff; border: none; font-size: 24px;
-      cursor: pointer; z-index: 2000;
-    }
-
-    #chat-box {
-      position: fixed; bottom: 90px; right: 20px;
-      width: 320px; background: #111; border-radius: 12px;
-      display: none; flex-direction: column; overflow: hidden; z-index: 2000;
-    }
-
-    #chat-header { background: #00e0ff; color: #000; padding: 12px; font-weight: bold; }
-    #chat-messages { padding: 12px; height: 220px; overflow-y: auto; }
-    #chat-input { display: flex; border-top: 1px solid #333; }
-    #chat-input input { flex: 1; padding: 10px; border: none; }
-    #chat-input button { background: #00e0ff; border: none; padding: 10px; }
+    
 
     footer { text-align: center; padding: 20px; opacity: 0.7; }
 
@@ -1092,11 +1074,7 @@ footer {
     link.addEventListener('click', () => showPage(link.dataset.page));
   });
 
-  // Chat widget
-  document.getElementById('chat-toggle').onclick = () => {
-    const box = document.getElementById('chat-box');
-    box.style.display = box.style.display === 'flex' ? 'none' : 'flex';
-  };
+  
 
 function toggleDetails(id, headerEl) {
   const details = document.getElementById(id);
